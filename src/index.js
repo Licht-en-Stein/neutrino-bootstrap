@@ -17,7 +17,7 @@ $(() => {
       categories.forEach((category) => {
         $navbarNav.append(`
           <li class="nav-item">
-        <a class="nav-link" href="#">${category.name}<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">${category.name}</a>
       </li>`);
       });
     });
