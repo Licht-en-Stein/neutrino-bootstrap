@@ -11,13 +11,15 @@ $(() => {
       $('#root').append($carousel);
       $carousel.carousel();
       $('.navbar-nav').empty();
-      for (let i = 0; i < categories.length; i += 1) {
-        $('.navbar-nav').append(`
-        <li class="nav-item">
-        <a class="nav-link" href="#">${categories[i].name}<span class="sr-only">(current)</span></a>
-      </li>
-        `);
-      }
+
+      const $navbarNav = $('.navbar-nav').empty();
+
+      categories.forEach((category) => {
+        $navbarNav.append(`
+          <li class="nav-item">
+        <a class="nav-link" href="#">${category.name}<span class="sr-only">(current)</span></a>
+      </li>`);
+      });
     });
   $('#root').append(navbarTemplate);
 });
