@@ -45,11 +45,11 @@ $(() => {
       //  append products-grid after carousel
       $('#root').append('<div id="products-grid" class="container-fluid"></div>');
       //  populate products-grid with products
-      refreshProducts(products, 'All');
+      refreshProducts(products, -1);
       // TODO 1.2: click event handler for nav-links
       $('.nav-link').click((eventObj) => {
         const { target } = eventObj;
-        const linkName = target.getAttribute('data-name');
+        const linkName = target.getAttribute('data-id');
         // clean the products-grid and update the content
         $(target).closest('ul').find('.active').removeClass('active');
         $(target).closest('li').addClass('active');
