@@ -4,15 +4,15 @@ import 'bootstrap/js/src';
 import './styles.scss';
 import navbarTemplate from './templates/navbar.html';
 //  TODO 2.2: Add a new template for the modal windows
+import modalTemplate from './templates/modal.html';
 import mkCarousel from './carousel';
 //  TODO 1.3: Add the new functions from products to import
-import mkProductCard from './products';
-
+import refreshProducts from './products';
 
 //  append navbar
 $(() => {
   //  TODO 2.3: Append modal windows tpl
-
+  $('#root').append(modalTemplate);
   $('#root').append(navbarTemplate);
   //  read categories
   $.ajax('./static/categories.json')
@@ -27,9 +27,10 @@ $(() => {
         //  TODO 1.1: Add data attributes to the links: data-name
         $('.navbar-nav').append(`
             <li class="nav-item">
-            <a class="nav-link" data-id="${number}" href="#">${category.name}</a>
+            <a class="nav-link" data-id="${number}" data-name="${category.name}" href="#">${category.name}</a>
             </li>`);
       });
+      $('ul').find('li:first').addClass('active');
     })
     //  or fail trying
     .fail((xhr, status, error) => {
@@ -40,18 +41,26 @@ $(() => {
   $.ajax('./static/products.json')
     .done((products) => {
       //  TODO 1.5: Add Counter
+      $('#root').append('<div class="infobox"><h2 id="infos"></h2></div>');
       //  append products-grid after carousel
       $('#root').append('<div id="products-grid" class="container-fluid"></div>');
       //  populate products-grid with products
-      $('#products-grid').append('<div class="row"></div>');
-      products
-        .forEach((product) => {
-          $('.row').append(mkProductCard(product));
-        });
+      refreshProducts(products, 'All');
       // TODO 1.2: click event handler for nav-links
-
+      $('.nav-link').click((eventObj) => {
+        const { target } = eventObj;
+        const linkName = target.getAttribute('data-name');
+        // clean the products-grid and update the content
+        $(target).closest('ul').find('.active').removeClass('active');
+        $(target).closest('li').addClass('active');
+        $('#products-grid').empty();
+        refreshProducts(products, linkName);
+      });
       // TODO 2.6: click event handler for details button
+    })
+    //  or fail trying TODO: BONUS
+    .fail((xhr, status, error) => {
+      $('#root').append(`<div>Ajax Error Products: ${error}</div>`);
     });
-  //  or fail trying TODO: BONUS
   // End
 });
