@@ -17,8 +17,9 @@ class Cart {
       const total = parseInt(localStorage.getItem('total'), 10);
       localStorage.setItem('total', total + 1);
       //  TODO: retrieve stored products
-      const storedProducts = JSON.stringify(localStorage.getItem('cart'));
+      const storedProducts = JSON.parse(localStorage.getItem('cart'));
       this.cart.products = storedProducts;
+      // console.log(this.cart.products);
     }
     // TODO: add products to cart
     this.cart.products.push(product);
@@ -29,10 +30,14 @@ class Cart {
   }
 
   removeItem(id) {
+    this.id = id;
     //  check what is in cart exists using total
     const total = parseInt(localStorage.getItem('total'), 10);
     localStorage.setItem('total', total - 1);
     //  TODO: retrieve stored products
+    const storedProducts = JSON.parse(localStorage.getItem('cart'));
+    this.cart.products = storedProducts.filter(product => product.id !== id);
+    localStorage.setItem('cart', JSON.stringify(this.cart.products));
     return this.update();
   }
 
@@ -53,12 +58,14 @@ class Cart {
       const storedProducts = JSON.parse(localStorage.getItem('cart'));
       let totalPrice = 0;
       storedProducts.forEach((product) => {
+        // console.log(product);
         totalPrice = parseInt(product.price, 10);
         $('.shopping-cart-items').append(`
           <li class=""clearfix>
-          <button type="button class="close removeItemButton" aria-label="Close" data-id="${product.id}">"
-                    <span aria-hidden="true">&times;</span></button>
-          <img class="cart-img src="/static/assetes/images/0${product.catid}.jpg" alt="${product.name}"/>
+          <button type="button" class="close removeItemButton" aria-label="Close" data-id="${product.id}">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <img class="cart-img" src="/static/assets/images/0${product.catid}.jpg" alt="${product.name}"/>
           <span class="item-name">${product.name}</span>
           <span class="item-price">${product.price}</span>
           <span class="item-quantity">Quantity: 01</span>
