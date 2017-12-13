@@ -18,6 +18,7 @@ export function mkProductCard(product) {
 //  TODO 1.3: Add refresh Products
 
 export default function refreshProducts(products, catId) {
+  // cart.clear();
   $('#products-grid').empty();
   $('#products-grid').append('<div class="row"></div>');
   const cat = parseInt(catId, 10);
