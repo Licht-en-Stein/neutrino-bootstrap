@@ -71,7 +71,7 @@ class Cart {
         // console.log(product);
         totalQuantity += parseInt(product.quantity, 10);
         totalPrice += parseInt(product.price, 10) * parseInt(product.quantity, 10);
-        $('.badge').text(product.quantity);
+        $('.badge').text(totalQuantity);
         $('.shopping-cart-items').append(`
           <li class=""clearfix>
           <button type="button" class="close removeItemButton" aria-label="Close" data-id="${product.id}">
