@@ -8,14 +8,14 @@ class Cart {
   }
 
   addItem(product) {
+    let total = Object.keys(this.cart.products).length;
     //  check if cart exists using total
-    if (localStorage.getItem('total') === null) {
+    if (total === 0) {
       //  cart is empty - add first product
-      localStorage.setItem('total', 1);
+      total = 1;
     } else {
       //  cart exists - retrive it and prepare to add
-      const total = parseInt(localStorage.getItem('total'), 10);
-      localStorage.setItem('total', total + 1);
+      total += 1;
       //  TODO: retrieve stored products
       const storedProducts = JSON.parse(localStorage.getItem('cart'));
       this.cart.products = storedProducts;
@@ -32,8 +32,6 @@ class Cart {
   removeItem(id) {
     this.id = id;
     //  check what is in cart exists using total
-    const total = parseInt(localStorage.getItem('total'), 10);
-    localStorage.setItem('total', total - 1);
     //  TODO: retrieve stored products
     const storedProducts = JSON.parse(localStorage.getItem('cart'));
     this.cart.products = storedProducts.filter(product => product.id !== id);
@@ -43,19 +41,20 @@ class Cart {
 
   update() {
     //  update badge and show/hide cart container
-    if (localStorage.getItem('total') === null) {
+    const total = Object.keys(this.cart.products).length;
+    if (total === 0) {
       $('.badge').text(0);
       $('.badge').hide();
       $('.shopping-cart').hide();
       $('.cart').hide();
     } else {
-      $('.badge').text(localStorage.getItem('total'));
+      $('.badge').text(total);
       $('.badge').show();
       $('.cart').show();
       // updating items in cart
       $('.shopping-cart-items').empty();
       //  TODO: update the items list here...
-      const storedProducts = JSON.parse(localStorage.getItem('cart'));
+      const storedProducts = this.cart.products;
       let totalPrice = 0;
       storedProducts.forEach((product) => {
         // console.log(product);
@@ -86,8 +85,8 @@ class Cart {
   clear() {
     localStorage.clear();
     // TODO: empty this.cart.products
-    this.update();
-    return this;
+    this.cart.products = [];
+    return this.update();
   }
 }
 
