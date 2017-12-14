@@ -20,6 +20,16 @@ class Cart {
       const storedProducts = JSON.parse(localStorage.getItem('cart'));
       this.cart.products = storedProducts;
       // console.log(this.cart.products);
+      $.map(this.cart.products, ((storedProduct) => {
+        if (product.id === storedProduct.id) {
+          this.removeItem(product.id);
+          console.log(`Product ${product.name} is already in your cart`);
+          console.log(`before ${product.quantity}`); // before
+          // eslint-disable-next-line no-param-reassign
+          product.quantity = storedProduct.quantity + 1;
+          console.log(`after ${product.quantity}`); // after
+        }
+      }));
     }
     // TODO: add products to cart
     this.cart.products.push(product);
@@ -67,7 +77,7 @@ class Cart {
           <img class="cart-img" src="/static/assets/images/0${product.catid}.jpg" alt="${product.name}"/>
           <span class="item-name">${product.name}</span>
           <span class="item-price">${product.price}</span>
-          <span class="item-quantity">Quantity: 01</span>
+          <span class="item-quantity">Quantity: ${product.quantity}</span>
           </li>`);
         $('.total').text(`€ ${totalPrice}`);
       });
