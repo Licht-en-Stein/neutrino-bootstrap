@@ -23,11 +23,11 @@ class Cart {
       $.map(this.cart.products, ((storedProduct) => {
         if (product.id === storedProduct.id) {
           this.removeItem(product.id);
-          console.log(`Product ${product.name} is already in your cart`);
-          console.log(`before ${product.quantity}`); // before
+          // console.log(`Product ${product.name} is already in your cart`);
+          // console.log(`before ${product.quantity}`); // before
           // eslint-disable-next-line no-param-reassign
           product.quantity = storedProduct.quantity + 1;
-          console.log(`after ${product.quantity}`); // after
+          // console.log(`after ${product.quantity}`); // after
         }
       }));
     }
@@ -66,9 +66,12 @@ class Cart {
       //  TODO: update the items list here...
       const storedProducts = this.cart.products;
       let totalPrice = 0;
+      let totalQuantity = 0;
       storedProducts.forEach((product) => {
         // console.log(product);
-        totalPrice = parseInt(product.price, 10);
+        totalQuantity += parseInt(product.quantity, 10);
+        totalPrice += parseInt(product.price, 10) * parseInt(product.quantity, 10);
+        $('.badge').text(product.quantity);
         $('.shopping-cart-items').append(`
           <li class=""clearfix>
           <button type="button" class="close removeItemButton" aria-label="Close" data-id="${product.id}">
@@ -80,6 +83,7 @@ class Cart {
           <span class="item-quantity">Quantity: ${product.quantity}</span>
           </li>`);
         $('.total').text(`€ ${totalPrice}`);
+        $('.badge').text(totalQuantity);
       });
     }
     $('.removeItemButton').click((eventObj) => {
