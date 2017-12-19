@@ -1,2 +1,2 @@
-# neutrino-bootstrap
-exercise about neutrino and bootstrap
+# Online Shop
+Building an online shop exercise with with Neutrino, Bootstrap and NodeJS
